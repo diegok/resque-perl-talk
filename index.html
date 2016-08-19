@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Resque to the rescue!</title>
+
+		<meta name="description" content="Talk about resque-perl.">
+		<meta name="author" content="Diego Kuperman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+          <h1>Resque to the rescue!</h1>
+          <br>
+          <h3>Diego Kuperman</h3>
+          <h3>diegok | @freekey</h3>
+				</section>
+
+				<section>
+          <img src="img/soysuper_logo.png" class="plain">
+				</section>
+
+				<section>
+          <h1>4 years ago...</h1>
+				</section>
+
+				<section>
+          <h1>A small startup was just starting...</h1>
+				</section>
+
+				<section>
+          <h1>Was in need of a queue to organize the chaos...</h1>
+				</section>
+
+				<section>
+          <h1>chaos</h1>
+          <h1>= the unknown</h1>
+          <h1>= a lot of failure</h1>
+				</section>
+
+				<section>
+					<h1>Gearman</h1>
+					<h2>Is a black box</h2>
+				</section>
+
+				<section>
+					<h1>Resque</h1>
+					<h2>to the rescue!</h2>
+				</section>
+
+				<section>
+          <h3>https://github.com/blog/542-introducing-resque</h3>
+          <p>Resque is a Redis-backed library for creating background jobs, placing them on multiple queues, and processing them later.</p>
+				</section>
+
+				<section>
+          <p>Resque workers can be distributed between multiple machines, support priorities, are resilient to memory bloat / "leaks," are optimized for REE (but work on MRI and JRuby), tell you what they're doing, and expect failure.</p>
+          <p>Resque queues are persistent; support constant time, atomic push and pop (thanks to Redis); provide visibility into their contents; and store jobs as simple JSON packages.</p>
+          <p>The Resque frontend tells you what workers are doing, what workers are not doing, what queues you're using, what's in those queues, provides general usage stats, and helps you track failures.</p>
+				</section>
+
+				<section>
+          <p>Resque <span style="color:red;">workers can be distributed between multiple machines</span>, support priorities, are <span style="color:red;">resilient to memory bloat / "leaks"</span>, are optimized for REE (but work on MRI and JRuby), tell you what they're doing, and <span style="color:red;">expect failure</span>.</p>
+          <p>Resque <span style="color:red;">queues are persistent</span>; support constant time, atomic push and pop (thanks to Redis); provide <span style="color:red;">visibility into their contents</span>; and store <span style="color:red;">jobs as simple JSON</span> packages.</p>
+          <p><span style="color:red;">The Resque frontend tells you what workers are doing</span>, what workers are not doing, what queues you're using, what's in those queues, provides general usage stats, and <span style="color:red;">helps you track failures.</span></p>
+				</section>
+
+				<section>
+					<h1>resque-web</h1>
+				</section>
+
+				<section>
+          <img src="img/resque-web.png" class="plain">
+				</section>
+
+				<section>
+					<h1>ruby</h1>
+				</section>
+
+				<section>
+          <img src="img/sad-panda.jpg" class="plain">
+				</section>
+
+				<section>
+					<h1>but...</h1>
+				</section>
+
+				<section>
+					<h1>perl ♡ ruby</h1>
+				</section>
+
+				<section>
+					<h1>hack hack hack...</h1>
+				</section>
+
+				<section>
+					<h1>hack hack hack hack hack hack</h1>
+				</section>
+
+				<section>
+					<h1>hack hack hack hack hack hack hack hack hack hack hack hack</h1>
+				</section>
+
+				<section>
+					<h1>hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack</h1>
+				</section>
+
+				<section>
+          <h2>resque-perl</h2>
+<pre><code>0.01      2011-12-30 17:50:59 Europe/Madrid
+
+    - Kind of working, need lot if tests and features
+</code></pre>
+				</section>
+
+				<section>
+          <p>Perl port of the original Ruby library. It's intended to work using the same backend to share tasks and be able to manage the system using ruby's resque-server webapp.</p>
+				</section>
+
+				<section>
+          <img src="img/happy-panda.jpg" class="plain">
+				</section>
+				<section>
+          <h1>☺</h1>
+          <h1>...and it has docs!</h1>
+				</section>
+				<section>
+          <img src="img/cpan.png" class="plain">
+				</section>
+
+				<section>
+          <h2>Ok, how resque works and how I use it?</h2>
+				</section>
+
+        <section>
+          <h1>Redis at heart</h1>
+          <ul>
+            <li>Fast</li>
+            <li>Atomic, O(1) list push and pop</li>
+            <li>Ability to paginate over lists without mutating them</li>
+            <li>Queryable keyspace, high visibility</li>
+            <li>Support for integer counters</li>
+            <li>Easy to install - no dependencies</li>
+            <li>Replicated and Highly Available</li>
+            <li>Persistent</li>
+            <li>...</li>
+          </ul>
+        </section>
+
+        <section>
+          <pre><code data-trim contenteditable class="perl">
+use Resque;
+
+my $r = Resque->new( redis => '127.0.0.1:6379' );
+          </code></pre>
+        </section>
+
+				<section>
+          <h1>Queues are lists</h1>
+				</section>
+
+				<section>
+          <h1>Jobs are JSON objects pushed to the list</h1>
+				</section>
+        <section>
+          <pre><code data-trim contenteditable class="perl">
+use Resque;
+
+my $r = Resque->new( redis => '127.0.0.1:6379' );
+
+$r->push( priority => {
+    class => 'My::Task',
+    args  => [ 'Hello world!' ]
+});
+          </code></pre>
+        </section>
+
+				<section>
+          <h1>Job classes must know how to perform()</h1>
+				</section>
+        <section>
+          <pre><code data-trim contenteditable class="perl">
+package My::Task;
+use strict;
+use 5.10.0;
+
+sub perform {
+    my $job = shift;
+    say $job->args->[0];
+}
+
+1;
+          </code></pre>
+        </section>
+
+				<section>
+          <h1>Workers just pull jobs and load job classes</h1>
+				</section>
+        <section>
+          <pre><code data-trim contenteditable class="perl">
+use Resque;
+
+my $w = Resque->new( redis => '127.0.0.1:6379' )->worker;
+$w->add_queue(qw/ my_queue less_priority_queue /);
+$w->work;
+          </code></pre>
+        </section>
+
+				<section>
+          <h1>Worker forks and manage running job object</h1>
+          <h3>Unless dont_fork()</h3>
+				</section>
+
+				<section>
+          <h1>Workers babysits other workers</h1>
+          <h3>prune_dead_workers()</h3>
+				</section>
+
+        <section>
+          <h1>Better example</h1>
+          <h2>How I use it</h2>
+				</section>
+
+        <section>
+          <pre><code data-trim contenteditable class="perl">
+$resque->push( low_priority => {
+    class => 'Task::Dispatch::Error'
+    args  => [{
+      subject => 'something is wrong',
+      body    => '...oh no!, my stacktrace is this...',
+    }]
+});
+          </code></pre>
+        </section>
+
+        <section>
+          <pre><code data-trim contenteditable class="perl">
+package Task::Dispatch::Error;
+
+sub perform {
+    my $job = shift;
+    Task::Dispatch::Error::Run->new( job => $job, %{$job->args->[0]} )->run;
+}
+
+package Task::Error::Dispatch::Run;
+use v5.10;
+use Moose;
+with 'Task::Role::ResqueJob';
+with 'Task::Role::EmailRules';
+
+has subject => ( is => 'rw', isa => 'Str', required => 1 );
+has body    => ( is => 'rw', isa => 'Str', default => sub{''} );
+has emails  => ( is => 'rw', default => sub{[ shift->error_emails ]} );
+
+sub run {
+    my $self = shift;
+
+    for my $email ( @{$self->emails} ) {
+        $self->resque->push( $self->job->queue => {
+            class => 'Task::SendMail',
+            args  => [{
+                to      => $email,
+                subject => $self->subject,
+                body    => $self->body
+            }]
+        });
+    }
+}
+
+1;
+          </code></pre>
+        </section>
+
+        <section>
+          <h1>...</h1>
+				</section>
+
+				<section data-background="white">
+          <h1>Thank you!</h1>
+				</section>
+
+				<section data-background="white">
+          <h1>¯\_(ツ)_/¯</h1>
+				</section>
+
+        <section>
+          <h1>Any question?</h1>
+				</section>
+
+        <section>
+          <pre><code data-trim contenteditable class="perl">
+#!/usr/bin/env perl
+use strict; use Resque;
+use Getopt::Long::Descriptive;
+
+my $opt = getopt();
+$_->require for @{$opt->module||[]};
+my $w = Resque->new( redis => $opt->redis )->worker;
+$w->$_($opt->$_) for qw/ interval verbose cant_fork/;
+$w->add_queue(@{$opt->queue});
+$w->work;
+
+sub getopt {
+    my ($opt, $usage) = describe_options(
+        "$0 \%o",
+        [ 'redis|r=s@',   "Redis server (default: 127.0.0.1:6379)", { default => '127.0.0.1:6379' } ],
+        [ 'queue|q=s@',   "queue name (Default: test_ss)", { default => 'test_ss' } ],
+        [],
+        [ 'interval|i=f', "Polling interval in floating seconds for this resque worker (Default 5 seconds)", { default => 5 } ],
+        [ 'cant_fork|f',  "Don't let resque fork" ],
+        [ 'module|M=s@',  "Modules to load before forking occurs" ],
+        [],
+        [ 'verbose|v',    "set resque worker to be verbose" ],
+        [ 'help',         "print usage message and exit" ],
+    );
+
+    print($usage->text), exit if $opt->help;
+    return $opt;
+}
+          </code></pre>
+        </section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				//parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				//parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
