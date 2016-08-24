@@ -150,3 +150,6 @@ body {
   box-shadow: none;
 }
 
+.reveal pre {
+  width: 100%;
+}

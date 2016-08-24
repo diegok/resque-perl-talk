@@ -42,180 +42,206 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
-          <h1>Resque to the rescue!</h1>
-          <br>
-          <h3>Diego Kuperman</h3>
-          <h3>diegok | @freekey</h3>
-				</section>
+<section>
+    <h1>Resque to the rescue!</h1>
+    <br>
+    <h3>Diego Kuperman</h3>
+    <h3>diegok | @freekey</h3>
+</section>
 
-				<section>
-          <img src="img/soysuper_logo.png" class="plain">
-				</section>
+<section>
+    <h1>Hello!</h1>
+    <h3>Good morning</h3>
+</section>
 
-				<section>
-          <h1>4 years ago...</h1>
-				</section>
+<section>
+    <h1>5 years ago...</h1>
+</section>
 
-				<section>
-          <h1>A small startup was just starting...</h1>
-				</section>
+<section>
+    <h1>A small startup was just starting...</h1>
+    <img src="img/soysuper_logo.png" class="plain" alt="soysuper logo">
+</section>
 
-				<section>
-          <h1>Was in need of a queue to organize the chaos...</h1>
-				</section>
+<section>
+    <h1>Was in need of a job queue to organize the chaos...</h1>
+</section>
 
-				<section>
-          <h1>chaos</h1>
-          <h1>= the unknown</h1>
-          <h1>= a lot of failure</h1>
-				</section>
+<section>
+    <h1>chaos</h1>
+    <h1>= the unknown</h1>
+    <h1>= a lot of failure</h1>
+</section>
 
-				<section>
-					<h1>Gearman</h1>
-					<h2>Is a black box</h2>
-				</section>
+<section>
+    <h1>What do we use?</h1>
+</section>
 
-				<section>
-					<h1>Resque</h1>
-					<h2>to the rescue!</h2>
-				</section>
+<section>
+    <h1>Gearman</h1>
+    <h2>... an efficient black box</h2>
+</section>
 
-				<section>
-          <h3>https://github.com/blog/542-introducing-resque</h3>
-          <p>Resque is a Redis-backed library for creating background jobs, placing them on multiple queues, and processing them later.</p>
-				</section>
+<section>
+    <h1>Gearman</h1>
+    <h2>Single queue (3 priorities)</h2>
+    <h2>No opinion on error management</h2>
+</section>
 
-				<section>
-          <p>Resque workers can be distributed between multiple machines, support priorities, are resilient to memory bloat / "leaks," are optimized for REE (but work on MRI and JRuby), tell you what they're doing, and expect failure.</p>
-          <p>Resque queues are persistent; support constant time, atomic push and pop (thanks to Redis); provide visibility into their contents; and store jobs as simple JSON packages.</p>
-          <p>The Resque frontend tells you what workers are doing, what workers are not doing, what queues you're using, what's in those queues, provides general usage stats, and helps you track failures.</p>
-				</section>
+<section>
+    <h1>TheSchwartz</h1>
+    <h2>Run on top of mysql</h2>
+    <h2>Abilities instead of queues (circular pick)</h2>
+    <h2>Manually add/load abilities on workers</h2>
+    <h2>Can auto-retry soft failures (work_safely)</h2>
+</section>
 
-				<section>
-          <p>Resque <span style="color:red;">workers can be distributed between multiple machines</span>, support priorities, are <span style="color:red;">resilient to memory bloat / "leaks"</span>, are optimized for REE (but work on MRI and JRuby), tell you what they're doing, and <span style="color:red;">expect failure</span>.</p>
-          <p>Resque <span style="color:red;">queues are persistent</span>; support constant time, atomic push and pop (thanks to Redis); provide <span style="color:red;">visibility into their contents</span>; and store <span style="color:red;">jobs as simple JSON</span> packages.</p>
-          <p><span style="color:red;">The Resque frontend tells you what workers are doing</span>, what workers are not doing, what queues you're using, what's in those queues, provides general usage stats, and <span style="color:red;">helps you track failures.</span></p>
-				</section>
+<section>
+    <h1>We needed more than one queue</h1>
+    <h2>And split workers among those</h2>
+</section>
 
-				<section>
-					<h1>resque-web</h1>
-				</section>
+<section>
+    <h1>We expected a lot of failure</h1>
+    <h2>And tools to look at those</h2>
+    <h2>... and to retry easily</h2>
+    <h2>... also on hard failures</h2>
+</section>
 
-				<section>
-          <img src="img/resque-web.png" class="plain">
-				</section>
+<section>
+    <h1>Resque</h1>
+    <h2>to the rescue!</h2>
+</section>
 
-				<section>
-					<h1>ruby</h1>
-				</section>
+<section>
+    <h3>https://github.com/blog/542-introducing-resque</h3>
+    <p>Resque is a Redis-backed library for creating background jobs, placing them on multiple queues, and processing them later.</p>
+</section>
 
-				<section>
-          <img src="img/sad-panda.jpg" class="plain">
-				</section>
+<section>
+  <h1>Redis backed</h1>
+  <ul>
+    <li>Fast</li>
+    <li>Atomic, O(1) list push and pop</li>
+    <li>Ability to paginate over lists without mutating them</li>
+    <li>Queryable keyspace, high visibility</li>
+    <li>Support for integer counters</li>
+    <li>Easy to install - no dependencies</li>
+    <li>Replicated and Highly Available</li>
+    <li>Persistent</li>
+    <li>...</li>
+  </ul>
+</section>
 
-				<section>
-					<h1>but...</h1>
-				</section>
+<section>
+    <p>Resque workers can be distributed between multiple machines, support priorities, are resilient to memory bloat / "leaks," are optimized for REE (but work on MRI and JRuby), tell you what they're doing, and expect failure.</p>
+    <p>Resque queues are persistent; support constant time, atomic push and pop (thanks to Redis); provide visibility into their contents; and store jobs as simple JSON packages.</p>
+    <p>The Resque frontend tells you what workers are doing, what workers are not doing, what queues you're using, what's in those queues, provides general usage stats, and helps you track failures.</p>
+</section>
 
-				<section>
-					<h1>perl ♡ ruby</h1>
-				</section>
+<section>
+    <p>Resque <span style="color:red;">workers can be distributed between multiple machines</span>, support priorities, are <span style="color:red;">resilient to memory bloat / "leaks"</span>, are optimized for REE (but work on MRI and JRuby), tell you what they're doing, and <span style="color:red;">expect failure</span>.</p>
+    <p>Resque <span style="color:red;">queues are persistent</span>; support constant time, atomic push and pop (thanks to Redis); <span style="color:red;">provide visibility into their contents</span>; and store <span style="color:red;">jobs as simple JSON</span> packages.</p>
+    <p><span style="color:red;">The Resque frontend tells you what workers are doing</span>, what workers are not doing, what queues you're using, what's in those queues, provides general usage stats, and <span style="color:red;">helps you track failures.</span></p>
+</section>
 
-				<section>
-					<h1>hack hack hack...</h1>
-				</section>
+<section>
+    <h1>resque-web</h1>
+</section>
 
-				<section>
-					<h1>hack hack hack hack hack hack</h1>
-				</section>
+<section>
+    <img src="img/resque-web.png" class="plain" alt="">
+</section>
 
-				<section>
-					<h1>hack hack hack hack hack hack hack hack hack hack hack hack</h1>
-				</section>
+<section>
+    <h1>ruby</h1>
+</section>
 
-				<section>
-					<h1>hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack</h1>
-				</section>
+<section>
+    <img src="img/sad-panda.jpg" class="plain" alt="">
+</section>
 
-				<section>
-          <h2>resque-perl</h2>
-<pre><code>0.01      2011-12-30 17:50:59 Europe/Madrid
+<section>
+    <h1>but...</h1>
+</section>
 
-    - Kind of working, need lot if tests and features
-</code></pre>
-				</section>
+<section>
+    <h1>perl ♡ ruby</h1>
+</section>
 
-				<section>
-          <p>Perl port of the original Ruby library. It's intended to work using the same backend to share tasks and be able to manage the system using ruby's resque-server webapp.</p>
-				</section>
+<section>
+    <h1>hack hack hack...</h1>
+</section>
 
-				<section>
-          <img src="img/happy-panda.jpg" class="plain">
-				</section>
-				<section>
-          <h1>☺</h1>
-          <h1>...and it has docs!</h1>
-				</section>
-				<section>
-          <img src="img/cpan.png" class="plain">
-				</section>
+<section>
+    <h1>hack hack hack hack hack hack</h1>
+</section>
 
-				<section>
-          <h2>Ok, how resque works and how I use it?</h2>
-				</section>
+<section>
+    <h1>hack hack hack hack hack hack hack hack hack hack hack hack</h1>
+</section>
 
-        <section>
-          <h1>Redis at heart</h1>
-          <ul>
-            <li>Fast</li>
-            <li>Atomic, O(1) list push and pop</li>
-            <li>Ability to paginate over lists without mutating them</li>
-            <li>Queryable keyspace, high visibility</li>
-            <li>Support for integer counters</li>
-            <li>Easy to install - no dependencies</li>
-            <li>Replicated and Highly Available</li>
-            <li>Persistent</li>
-            <li>...</li>
-          </ul>
-        </section>
+<section>
+    <h1>hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack hack</h1>
+</section>
 
-        <section>
-          <pre><code data-trim contenteditable class="perl">
+<section>
+    <h2>resque-perl</h2>
+    <pre><code>0.01      2011-12-30 17:50:59 Europe/Madrid
+
+    - Kind of working, need lots of tests and features
+    </code></pre>
+</section>
+
+<section>
+    <p>Perl port of the original Ruby library. It's intended to work using the same backend to share tasks and be able to manage the system using ruby's resque-server webapp.</p>
+</section>
+
+<section>
+    <img src="img/happy-panda.jpg" class="plain" alt="">
+</section>
+
+<section>
+    <h1>☺</h1>
+    <h1>...and it had docs besides a blog post!</h1>
+</section>
+
+<section>
+    <img src="img/cpan.png" class="plain" alt="">
+</section>
+
+<section>
+    <h1>Ok, let's use it</h1>
+    <br>
+    <pre><code data-trim contenteditable class="perl">
 use Resque;
 
 my $r = Resque->new( redis => '127.0.0.1:6379' );
-          </code></pre>
-        </section>
+    </code></pre>
+</section>
 
-				<section>
-          <h1>Queues are lists</h1>
-				</section>
-
-				<section>
-          <h1>Jobs are JSON objects pushed to the list</h1>
-				</section>
-        <section>
-          <pre><code data-trim contenteditable class="perl">
+<section>
+    <h1>Queues are lists</h1>
+    <h2>Jobs are JSON objects pushed to a list</h2>
+    <br>
+    <pre><code data-trim contenteditable class="perl">
 use Resque;
 
 my $r = Resque->new( redis => '127.0.0.1:6379' );
 
-$r->push( priority => {
+$r->push( some_queue => {
     class => 'My::Task',
     args  => [ 'Hello world!' ]
 });
-          </code></pre>
-        </section>
+    </code></pre>
+</section>
 
-				<section>
-          <h1>Job classes must know how to perform()</h1>
-				</section>
-        <section>
-          <pre><code data-trim contenteditable class="perl">
+<section>
+    <h1>Job classes must know how to perform()</h1>
+    <br>
+    <pre><code data-trim contenteditable class="perl">
 package My::Task;
-use strict;
-use 5.10.0;
+use strict; use v5.10;
 
 sub perform {
     my $job = shift;
@@ -223,142 +249,365 @@ sub perform {
 }
 
 1;
-          </code></pre>
-        </section>
+    </code></pre>
+</section>
 
-				<section>
-          <h1>Workers just pull jobs and load job classes</h1>
-				</section>
-        <section>
-          <pre><code data-trim contenteditable class="perl">
-use Resque;
+<section>
+    <h1>Workers does everything else!</h1>
+</section>
 
-my $w = Resque->new( redis => '127.0.0.1:6379' )->worker;
-$w->add_queue(qw/ my_queue less_priority_queue /);
-$w->work;
-          </code></pre>
-        </section>
+<section>
+    <h1>Workers pull jobs and load job classes</h1>
+</section>
 
-				<section>
-          <h1>Worker forks and manage running job object</h1>
-          <h3>Unless dont_fork()</h3>
-				</section>
+<section>
+    <h1>Worker forks and manage running job object</h1>
+    <h3>Unless dont_fork()</h3>
+</section>
 
-				<section>
-          <h1>Workers babysits other workers</h1>
-          <h3>prune_dead_workers()</h3>
-				</section>
+<section>
+    <h1>Workers babysits other workers</h1>
+    <h3>prune_dead_workers()</h3>
+</section>
 
-        <section>
-          <h1>Better example</h1>
-          <h2>How I use it</h2>
-				</section>
+<section>
+<pre><code data-trim contenteditable class="perl">
+    use Resque;
 
-        <section>
-          <pre><code data-trim contenteditable class="perl">
+    my $w = Resque->new( redis => '127.0.0.1:6379' )->worker;
+    $w->add_queue(qw/ some_queue some_less_important_queue /);
+    $w->work;
+</code></pre>
+</section>
+
+<section>
+<pre><code>
+$ resque-worker -q some_queue -q some_less_important_queue
+</code></pre>
+</section>
+
+<section>
+<pre><code>
+$ resque-worker --help
+resque-worker [-fiMqrv] [long options...]
+    -r STR... --redis STR...     Redis server (default: 127.0.0.1:6379)
+    -q STR... --queue STR...     Queue name/s (required)
+
+    -i NUM --interval NUM        Polling interval in floating seconds for
+                                 this resque worker (Default 5 seconds)
+
+    -M STR... --module STR...    Modules to load before forking occurs
+    -f --unforked                Don't let resque fork
+
+    -v --verbose                 set resque worker to be verbose
+    --help                       print usage message and exit
+</code></pre>
+</section>
+
+<section>
+    <h1>How we use it</h1>
+    <h3>How we write background job classes</h3>
+</section>
+
+<section>
+    <pre><code data-trim contenteditable class="perl">
 $resque->push( low_priority => {
-    class => 'Task::Dispatch::Error'
+    class => 'Task::Sendmail'
     args  => [{
-      subject => 'something is wrong',
-      body    => '...oh no!, my stacktrace is this...',
+      to      => $user->email,
+      subject => 'This is just a test email from my app.',
+      body    => 'Welcome to my test',
     }]
 });
-          </code></pre>
-        </section>
+    </code></pre>
+</section>
 
-        <section>
-          <pre><code data-trim contenteditable class="perl">
-package Task::Dispatch::Error;
+<section>
+    <pre><code data-trim contenteditable class="perl">
+package Task::Sendmail;
 
 sub perform {
     my $job = shift;
-    Task::Dispatch::Error::Run->new( job => $job, %{$job->args->[0]} )->run;
+    Task::Sendmail::Run->new( job => $job, %{$job->args->[0]} )->run;
 }
 
-package Task::Error::Dispatch::Run;
-use v5.10;
+package Task::Sendmail::Run;
 use Moose;
 with 'Task::Role::ResqueJob';
-with 'Task::Role::EmailRules';
+with 'Task::Role::MailClient';
 
-has subject => ( is => 'rw', isa => 'Str', required => 1 );
-has body    => ( is => 'rw', isa => 'Str', default => sub{''} );
-has emails  => ( is => 'rw', default => sub{[ shift->error_emails ]} );
+has to      => ( is => 'ro', isa => 'Str', required => 1 );
+has subject => ( is => 'ro', isa => 'Str', required => 1 );
+has body    => ( is => 'ro', isa => 'Str', default => sub{''} );
+has from    => ( is => 'ro', isa => 'Str', default => sub{'Our App &lt;hello@ourapp.com&gt;'} );
 
 sub run {
     my $self = shift;
 
-    for my $email ( @{$self->emails} ) {
-        $self->resque->push( $self->job->queue => {
-            class => 'Task::SendMail',
-            args  => [{
-                to      => $email,
-                subject => $self->subject,
-                body    => $self->body
-            }]
-        });
-    }
+    $self->sendmail( map { $_ => $self->$_ } qw/ from to subject body / );
 }
 
 1;
-          </code></pre>
-        </section>
+    </code></pre>
+</section>
 
-        <section>
-          <h1>...</h1>
-				</section>
+<section>
+    <pre><code data-trim contenteditable class="perl">
+package Task::Role::ResqueJob;
+use Moose::Role;
 
-				<section data-background="white">
-          <h1>Thank you!</h1>
-				</section>
+has job => (
+    is       => 'ro',
+    isa      => 'Resque::Job',
+    required => 1,
+    handles  => [qw/ resque redis /]
+);
 
-				<section data-background="white">
-          <h1>¯\_(ツ)_/¯</h1>
-				</section>
+sub run {}
 
-        <section>
-          <h1>Any question?</h1>
-				</section>
+1;
+    </code></pre>
+</section>
 
-        <section>
-          <pre><code data-trim contenteditable class="perl">
+<section>
+    <h1>Remove the boilerplate</h1>
+</section>
+
+<section>
+    <pre><code data-trim contenteditable class="perl">
+package Task::Sendmail;
+use Moose;
+with 'Task::Role::ResqueJob';
+with 'Task::Role::MailClient';
+
+has to      => ( is => 'ro', isa => 'Str', required => 1 );
+has subject => ( is => 'ro', isa => 'Str', required => 1 );
+has body    => ( is => 'ro', isa => 'Str', default => sub{''} );
+has from    => ( is => 'ro', isa => 'Str', default => sub{'Our App &lt;hello@ourapp.com&gt;'} );
+
+sub perform {
+    my $job = shift;
+    __PACKAGE__->new( job => $job, %{$job->args->[0]} )->run;
+}
+
+sub run {
+    my $self = shift;
+
+    $self->sendmail( map { $_ => $self->$_ } qw/ from to subject body / );
+}
+
+1;
+    </code></pre>
+</section>
+
+<section>
+    <h1>Introduce Resque::WorkerClass</h1>
+</section>
+
+<section>
+    <pre><code data-trim contenteditable class="perl">
+package Task::Sendmail;
+use Resque::WorkerClass;
+with 'Task::Role::MailClient';
+
+has to      => ( is => 'ro', isa => 'Str', required => 1 );
+has subject => ( is => 'ro', isa => 'Str', required => 1 );
+has body    => ( is => 'ro', isa => 'Str', default => sub{''} );
+has from    => ( is => 'ro', isa => 'Str', default => sub{'Our App &lt;hello@ourapp.com&gt;'} );
+
+sub run {
+    my $self = shift;
+    $self->sendmail( map { $_ => $self->$_ } qw/ from to subject body / );
+}
+
+1;
+    </code></pre>
+</section>
+
+<section data-background="white">
+    <h1>¯\_(ツ)_/¯</h1>
+</section>
+
+<section>
+    <h1>Hooks?, Plugins?</h1>
+</section>
+
+<section>
+    <pre><code data-trim contenteditable class="perl">
+package Task::Role::Retry;
+use Moose::Role;
+use Try::Tiny;
+
+has max_retries => ( is => 'ro', default => sub{1} );
+has retries     => ( is => 'ro', default => sub{0} );
+has last_error  => ( is => 'ro' );
+
+around 'run' => sub {
+    my ( $orig, $self ) = @_;
+
+    try { $self->$orig() }
+    catch {
+	if ( $self->retries < $self->max_retries ) {
+            $self->resque->push( $self->job->queue => {
+                class => $self->job->queue,
+                args  => [{ %{$self->job->args->[0]},
+		    retries    => $self->retries+1,
+                    last_error => "$_"
+                }]
+            });
+        }
+        else { die $_ }
+    };
+};
+
+1;
+    </code></pre>
+</section>
+
+<section>
+    <h1>Error handling</h1>
+    <h2>Retry / Delete</h2>
+</section>
+
+<section>
+    <pre><code data-trim contenteditable class="perl">
 #!/usr/bin/env perl
-use strict; use Resque;
+use v5.10; use strict;
+use Resque;
 use Getopt::Long::Descriptive;
 
-my $opt = getopt();
-$_->require for @{$opt->module||[]};
-my $w = Resque->new( redis => $opt->redis )->worker;
-$w->$_($opt->$_) for qw/ interval verbose cant_fork/;
-$w->add_queue(@{$opt->queue});
-$w->work;
+my $opt    = getopt();
+my $resque = Resque->new( redis => $opt->redis );
+my $total  = $resque->failures->count;
 
+say "Reviewing $total failures" if $opt->verbose;
+for my $idx (reverse 0 .. $total-1 ) {
+    my @fail = $resque->failures->all($idx,1);
+    my $item = $fail[0];
+
+    if ( my $re = $opt->queue ){ $item->{queue} =~ /$re/ || next }
+    if ( my $re = $opt->class ){ $item->{payload}{class} =~ /$re/ || next }
+    if ( my $re = $opt->error ){ $item->{error} =~ /$re/ || next }
+    if ( my $re = $opt->args ) { $resque->encoder->encode($item->{payload}{args}) =~ /$re/ || next }
+
+    say $item->{payload}{class} if $opt->verbose;
+    if ( $opt->retry ) {
+        $resque->failures->requeue($idx);
+        say "-> Retried!" if $opt->verbose;
+    }
+    if ( $opt->delete ) {
+        $resque->failures->remove($idx);
+        say "-> Deleted!" if $opt->verbose;
+    }
+}
+
+    </code></pre>
+</section>
+
+<section>
+    <pre><code data-trim contenteditable class="perl">
 sub getopt {
     my ($opt, $usage) = describe_options(
-        "$0 \%o",
-        [ 'redis|r=s@',   "Redis server (default: 127.0.0.1:6379)", { default => '127.0.0.1:6379' } ],
-        [ 'queue|q=s@',   "queue name (Default: test_ss)", { default => 'test_ss' } ],
+        'peek_failed %o',
+        [ 'redis|r=s', "Redis instance", { default => '127.0.0.1:6379' } ],
         [],
-        [ 'interval|i=f', "Polling interval in floating seconds for this resque worker (Default 5 seconds)", { default => 5 } ],
-        [ 'cant_fork|f',  "Don't let resque fork" ],
-        [ 'module|M=s@',  "Modules to load before forking occurs" ],
+        [ 'queue|q=s', "Origin queue name for filtering failed tasks (all by default)" ],
+        [ 'class|c=s', "Task class name for filtering failed tasks (all by default)" ],
+        [ 'error|e=s', "Error string for filtering failed tasks (all by default)" ],
+        [ 'args|a=s',  "Argument string for filtering failed tasks (all by default)" ],
         [],
-        [ 'verbose|v',    "set resque worker to be verbose" ],
-        [ 'help',         "print usage message and exit" ],
+        [ 'retry',     "Retry matching tasks" ],
+        [ 'delete',    "Delete matching tasks" ],
+        [ 'verbose|v', "Show what's happening" ],
+        [],
+        [ 'help|h',    "print usage message and exit" ],
     );
 
     print($usage->text), exit if $opt->help;
+
     return $opt;
 }
-          </code></pre>
-        </section>
+    </code></pre>
+</section>
+
+<section>
+    <h2>Resque::Failures::mass_remove()</h2>
+</section>
+
+<section>
+    <h1>Stalled workers</h1>
+</section>
+
+<section>
+    <pre><code data-trim contenteditable class="perl">
+#!/usr/bin/env perl
+use Supers::Command;
+use v5.10; use strict;
+use Time::Concise;
+
+my $c = Supers::Command->new( no_schema=>1, options => [
+    [ 'host|e=s',  "Error string for filtering failed tasks (required)" ],
+    [ 'pid|a=s',   "Proccess ID of the worker (all by default)" ],
+    [ 'queue|q=s', "Origin queue name for filtering failed tasks (all by default)" ],
+    [ 'class|c=s', "Task class name for filtering failed tasks (all by default)" ],
+    [ 'max-age=s', "Workers working for more than the provided duration, examples: 1d, 2h, 10m" ],
+    [],
+    [ 'list',   "Display matching workers" ],
+    [ 'delete', "Delete matching workers" ],
+]);
+    </code></pre>
+</section>
+
+<section>
+    <pre><code data-trim contenteditable class="perl">
+my $limit = $c->opt->max_age 
+          ? DateTime->now->subtract( seconds => from_concise($c->opt->max_age) )
+          : 0;
+
+for my $w ( $c->resque->worker->all ) {
+    my ($host, $pid, $queues) = split( ':', $w->id );
+    next if $c->opt->host && $host ne $c->opt->host;
+    next if $c->opt->pid  && $pid ne $c->opt->pid;
+
+    if ( $w->is_working ) {
+        my $started = $w->processing_started;
+        next if $limit && $started > $limit;
+
+        my $job_data  = $w->processing;
+        my $job_queue = $job_data->{queue} || next; # not doing nothing
+        my $job_class = $job_data->{payload}{class};
+
+        next if $c->opt->queue && $job_queue ne $c->opt->queue;
+        next if $c->opt->class && $job_class ne $c->opt->class;
+
+        say "[$host:$pid] $started - $job_class on queue $job_queue" if $c->opt->list;
+    }
+    elsif ( !$limit && !$c->opt->queue && !$c->opt->class ) {
+        say "[$host:$pid] waiting for a job on $queues..." if $c->opt->list;
+    }
+    else { next }
+
+    $w->unregister_worker if $c->opt->delete;
+}
+    </code></pre>
+</section>
+
+<section>
+    <h1>...</h1>
+</section>
+
+<section data-background="white">
+    <h1>Thank you!</h1>
+</section>
+
+<section>
+    <h1>Any question?</h1>
+</section>
+
 			</div>
-
 		</div>
-
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.min.js"></script>
-
 		<script>
 
 			// Full list of configuration options available here:
